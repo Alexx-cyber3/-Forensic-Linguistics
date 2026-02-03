@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forensic Linguistics: Author Attribution</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max_width: 800px; margin-top: 50px; }
+        .card { box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; }
+        .header-title { color: #2c3e50; font-weight: bold; }
+        .result-box { background-color: #e9ecef; padding: 20px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 class="header-title">Author Attribution System</h1>
+        <p class="text-muted">Forensic Linguistics & Stylometry Analysis</p>
+    </div>
+
+    <div class="card p-4">
+        <form action="/predict" method="post">
+            <div class="mb-3">
+                <label for="textInput" class="form-label">Enter Text for Analysis:</label>
+                <textarea class="form-control" id="textInput" name="text" rows="6" placeholder="Paste the disputed text here..." required>{{ original_text if original_text else '' }}</textarea>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Analyze Authorship</button>
+            </div>
+        </form>
+
+        {% if prediction %}
+        <div class="result-box text-center">
+            <h3>Predicted Author: <span class="text-primary">{{ prediction }}</span></h3>
+            <p>Confidence: <strong>{{ confidence }}%</strong></p>
+            <hr>
+            <h5>Stylometric Features:</h5>
+            <div class="row text-start">
+                <div class="col-md-6">
+                    <ul>
+                        <li><strong>Avg Word Length:</strong> {{ features[0]|round(2) }}</li>
+                        <li><strong>Avg Sentence Length:</strong> {{ features[1]|round(2) }} words</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul>
+                        <li><strong>Noun Usage:</strong> {{ (features[2]*100)|round(1) }}%</li>
+                        <li><strong>Verb Usage:</strong> {{ (features[3]*100)|round(1) }}%</li>
+                        <li><strong>Adjective Usage:</strong> {{ (features[4]*100)|round(1) }}%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+The hypothesis was tested using a multivariate analysis of variance on the extracted feature set.
